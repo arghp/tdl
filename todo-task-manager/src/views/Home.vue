@@ -1,41 +1,12 @@
 <template>
    <div style="height:200vh; background-color:#1C4670 ">
-    <v-container  style="margin-top: 3em;">
 
-    <v-row >
-      <v-btn
-        class="section-btn"
-        type="submit"
-        @click="addTask"
-        :disabled="isAddTask"
-      >
-        Add Task
-      </v-btn>
-      </v-row>
-
-    </v-container >
-
-    <v-container v-if="isAddTask"
+     <v-container
       style="margin-top: 1em; border-radius: 12px; background-color: #E3E8F0;">
 
-      <AddTask  @taskCreate="newTaskCreated"></AddTask>
+      <TaskInfo></TaskInfo>
+     </v-container>
 
-    </v-container >
-
-    <v-container  style="margin-top: 3em;">
-
-      <v-card
-        id="nav-card"
-        class="mx-auto"
-        width="320"
-        tile
-        style="border-radius: 12px; background-color: #E3E8F0;"
-      >
-        <v-card-title class="text-center" style="margin-top: 0em; color: #278AB0;">MY TASKS</v-card-title>
-
-      </v-card>
-
-    </v-container >
 
   </div>
 
@@ -46,12 +17,16 @@
 
 
 import AddTask from "@/components/AddTask.vue";
+import MyTasks  from "@/components/MyTasks";
+import TaskInfo from "@/components/TaskInfo";
 
   export default {
 
     name:'Home',
     components: {
       AddTask,
+      MyTasks,
+      TaskInfo
     },
     data: () => ({
       isAddTask: false,
@@ -73,12 +48,31 @@ import AddTask from "@/components/AddTask.vue";
   };
 </script>
 
-<style scoped>
+<style>
 
 
 .routerLink{
   text-decoration: none;
 }
+
+.section-container{
+  border-radius: 12px;
+  //background-color: #EAEAE0;
+  background-color: #E3E8F0;
+  padding: 3em;
+}
+.section-header{
+  color: #5CA277;
+}
+.section-btn{
+  background-color: #5CA277;
+}
+
+.icon-color{
+  color: #5CA277;
+  padding-bottom: 1em;
+}
+
 .home-icon-color{
   color: #278AB0;
 }
