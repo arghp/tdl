@@ -17,11 +17,11 @@
       >
          <v-text-field
           v-model="search"
-          append-icon="search"
+          prepend-icon="mdi-magnify"
           label="Search"
           single-line
           hide-details
-          class="ml-1"
+          class="ml-4"
         ></v-text-field>
         <v-spacer></v-spacer>
         <v-dialog
