@@ -5,9 +5,10 @@
   <v-data-table
     :headers="headers"
     :items="tasks"
-    :sort-by="[{ key: 'calories', order: 'asc' }]"
+    :sort-by="[{ key: 'id', order: 'asc' }]"
     class="elevation-1"
   >
+
 
     <template v-slot:top>
       <v-toolbar
@@ -39,14 +40,27 @@
                   <v-col
                     cols="12"
                     sm="6"
-                    md="7"
+                    md="8"
                   >
                     <v-text-field
                       v-model="editedItem.title"
                       label="Task"
                     ></v-text-field>
                   </v-col>
-                  <v-col></v-col>
+                </v-row>
+                <v-row>
+                  <v-col
+                    cols="12"
+                    sm="6"
+                    md="4"
+                  >
+
+                    <v-combobox
+                      v-model="editedItem.category"
+                      label="Category"
+                      :items="['home', 'personal', 'school', 'work', 'other']"
+                    ></v-combobox>
+                  </v-col>
                   <v-col
                     cols="12"
                     sm="6"
@@ -55,10 +69,11 @@
 
                     <v-combobox
                       v-model="editedItem.completed"
-                      label="Completed"
+                      label="Status"
                       :items="['not started', 'in progress', 'done']"
                     ></v-combobox>
                   </v-col>
+
                 </v-row>
                 <v-row>
 
@@ -109,6 +124,12 @@
         </v-dialog>
       </v-toolbar>
     </template>
+    <template v-slot:item.completed="{ item }">
+      <v-chip :color="getColor(item)">
+        {{ item.raw.completed }}
+      </v-chip>
+    </template>
+
     <template v-slot:item.actions="{ item }">
       <v-icon
         size="small"
@@ -146,9 +167,10 @@
       dialog: false,
       dialogDelete: false,
       headers: [
-        { title: 'Task', key: 'title' , align: 'start', sortable: true },
+        { title: 'Task', key: 'title', align: 'start', sortable: true },
         { title: 'Description', key: 'description', align: 'left', sortable: false },
-        { title: 'Completed', key: 'completed', align: 'right', sortable: true },
+        { title: 'Status', key: 'completed', align: 'right', sortable: true },
+        { title: 'Category', key: 'category', align: 'right', sortable: true },
         { title: '', key: 'actions', align: 'end', sortable: false },
       ],
       tasks: [],
@@ -191,19 +213,23 @@
             id: 1,
             title: 'Frozen Yogurt',
             description: 'my first task',
-            completed: 'false',
+            completed: 'not started',
+            category: 'personal',
           },
           {
             id: 2,
             title: 'Task 2',
             description: 'my second task',
-            completed: 'false',
+            completed: 'in progress',
+            category: 'work',
+
           },
           {
             id: 3,
             title: 'Task 3',
             description: 'my third task',
-            completed: 'false',
+            completed: 'done',
+            category: 'other',
           },
         ]
       },
@@ -250,6 +276,14 @@
           this.tasks.push(this.editedItem)
         }
         this.close()
+      },
+
+      getColor (item) {
+        let taskStatus = item.raw.completed
+        console.log('completed', taskStatus)
+        if (taskStatus === 'not started') return 'red'
+        else if (taskStatus === 'in progress') return 'orange'
+        else return 'green'
       },
     },
   }
