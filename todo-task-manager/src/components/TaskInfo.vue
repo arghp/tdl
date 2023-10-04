@@ -7,6 +7,7 @@
     :items="tasks"
     :sort-by="[{ key: 'id', order: 'asc' }]"
     class="elevation-1"
+    :search="search"
   >
 
 
@@ -14,6 +15,14 @@
       <v-toolbar
         flat
       >
+         <v-text-field
+          v-model="search"
+          append-icon="search"
+          label="Search"
+          single-line
+          hide-details
+          class="ml-1"
+        ></v-text-field>
         <v-spacer></v-spacer>
         <v-dialog
           v-model="dialog"
@@ -185,6 +194,7 @@
         description: '',
         completed: '',
       },
+      search: '',
     }),
 
     computed: {
@@ -211,7 +221,7 @@
         this.tasks = [
           {
             id: 1,
-            title: 'Frozen Yogurt',
+            title: 'Task 1',
             description: 'my first task',
             completed: 'not started',
             category: 'personal',
@@ -283,7 +293,8 @@
         console.log('completed', taskStatus)
         if (taskStatus === 'not started') return 'red'
         else if (taskStatus === 'in progress') return 'orange'
-        else return 'green'
+        else if (taskStatus === 'done') return 'green'
+        else return 'white'
       },
     },
   }
