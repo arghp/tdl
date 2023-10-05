@@ -7,7 +7,7 @@ import { Task, TaskSchema } from './schemas/task.schema';
 
 @Module({
   imports: [
-    MongooseModule.forRoot('mongodb://localhost/27017'),
+    MongooseModule.forRoot('mongodb://localhost/tasks'),
     MongooseModule.forFeature([{ name: Task.name, schema: TaskSchema }])],
   controllers: [AppController],
   providers: [AppService],
