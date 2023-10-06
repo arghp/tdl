@@ -57,6 +57,13 @@
                       v-model="editedItem.title"
                       label="Task"
                     ></v-text-field>
+                     </v-col>
+                  <v-col>
+                    <v-select
+                      v-model="editedItem.priority"
+                      label="Priority"
+                      :items="['high', 'medium', 'low']"
+                    ></v-select>
                   </v-col>
                 </v-row>
                 <v-row>
@@ -201,8 +208,8 @@
 //        { title: 'Description', key: 'description', align: 'left', sortable: false },
         { title: 'Status', key: 'completed', sortable: true },
         { title: 'Category', key: 'category', sortable: true },
+        { title: 'Priority', key: 'priority', sortable: true },
         { title: 'Due Date', key: 'dueDate',  sortable: true },
-
         { title: '', key: 'actions', align: 'end', sortable: false },
         { title: '', key: 'data-table-expand', align: 'end', sortable: false },
       ],
@@ -212,6 +219,8 @@
         title: '',
         description: '',
         completed: '',
+        category: '',
+        priority: '',
         dueDate:'',
       },
       expanded: [],
@@ -219,6 +228,8 @@
         title: '',
         description: '',
         completed: '',
+        category: '',
+        priority: '',
         dueDate:'',
       },
       search: '',
@@ -252,6 +263,7 @@
             description: 'my first task',
             completed: 'not started',
             category: 'personal',
+            priority: '',
             dueDate:'2023-11-01',
           },
           {
@@ -260,6 +272,7 @@
             description: 'my second task',
             completed: 'in progress',
             category: 'work',
+            priority: '',
             dueDate:'',
           },
           {
@@ -268,6 +281,7 @@
             description: 'my third task',
             completed: 'done',
             category: 'other',
+            priority: '',
             dueDate: '',
           },
         ]
