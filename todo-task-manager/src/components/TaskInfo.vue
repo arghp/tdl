@@ -170,10 +170,19 @@
       </v-icon>
       <v-icon
         size="small"
+        class="me-2"
         @click="deleteItem(item)"
       >
         mdi-delete
       </v-icon>
+      <v-icon
+        size="small"
+        class="me-2"
+        @click="duplicateTask(item)"
+      >
+        mdi-content-duplicate
+      </v-icon>
+
     </template>
 
     <template v-slot:expanded-row="{ item }">
@@ -201,149 +210,179 @@
 </template>
 
 <script>
-  export default {
-    data: () => ({
-      dialog: false,
-      dialogDelete: false,
-      headers: [
-        { title: 'Task', key: 'title', align: 'start', sortable: true },
-//        { title: 'Description', key: 'description', align: 'left', sortable: false },
-        { title: 'Status', key: 'completed', sortable: true },
-        { title: 'Category', key: 'category', sortable: true },
-        { title: 'Priority', key: 'priority', sortable: true },
-        { title: 'Due Date', key: 'dueDate',  sortable: true },
-        { title: '', key: 'actions', align: 'end', sortable: false },
-        { title: '', key: 'data-table-expand', align: 'end', sortable: false },
-      ],
-      tasks: [],
-      editedIndex: -1,
-      editedItem: {
-        title: '',
-        description: '',
-        completed: '',
-        category: '',
-        priority: '',
-        dueDate:'',
-      },
-      expanded: [],
-      defaultItem: {
-        title: '',
-        description: '',
-        completed: '',
-        category: '',
-        priority: '',
-        dueDate:'',
-      },
-      search: '',
-      requiredRule: (v) => !!v || 'Task name is required.',
-    }),
+export default {
+  data: () => ({
+    dialog: false,
+    dialogDelete: false,
+    headers: [
+      { title: 'Task', key: 'title', align: 'start', sortable: true },
+      { title: 'Status', key: 'completed', sortable: true },
+      { title: 'Category', key: 'category', sortable: true },
+      { title: 'Priority', key: 'priority', sortable: true },
+      { title: 'Due Date', key: 'dueDate',  sortable: true },
+      { title: '', key: 'actions', align: 'end', sortable: false },
+      { title: '', key: 'data-table-expand', align: 'end', sortable: false },
+    ],
+    tasks: [],
+    editedIndex: -1,
+    editedItem: {
+      title: '',
+      description: '',
+      completed: '',
+      category: '',
+      priority: '',
+      dueDate:'',
+    },
+    expanded: [],
+    defaultItem: {
+      title: '',
+      description: '',
+      completed: '',
+      category: '',
+      priority: '',
+      dueDate:'',
+    },
+    search: '',
+    requiredRule: (v) => !!v || 'Task name is required.',
+  }),
 
-    computed: {
-      formTitle () {
-        return this.editedIndex === -1 ? 'New Task' : 'Edit Task'
-      },
+  computed: {
+    formTitle () {
+      return this.editedIndex === -1 ? 'New Task' : 'Edit Task'
+    },
+  },
+
+  watch: {
+    dialog (val) {
+      val || this.close()
+    },
+    dialogDelete (val) {
+      val || this.closeDelete()
+    },
+  },
+
+  created () {
+    this.initialize()
+  },
+
+  methods: {
+    initialize () {
+      this.tasks = [
+        {
+          id: 1,
+          title: 'Task 1',
+          description: 'my first task',
+          completed: 'not started',
+          category: 'personal',
+          priority: 'low',
+          dueDate:'2023-11-01',
+        },
+        {
+          id: 2,
+          title: 'Task 2',
+          description: 'my second task',
+          completed: 'in progress',
+          category: 'work',
+          priority: 'medium',
+          dueDate:'',
+        },
+        {
+          id: 3,
+          title: 'Task 3',
+          description: 'my third task',
+          completed: 'done',
+          category: 'other',
+          priority: 'high',
+          dueDate: '',
+        },
+      ]
     },
 
-    watch: {
-      dialog (val) {
-        val || this.close()
-      },
-      dialogDelete (val) {
-        val || this.closeDelete()
-      },
+    editItem (item) {
+      let taskToFind = JSON.parse(JSON.stringify(item)).raw
+      if (!taskToFind) {taskToFind = item}
+      this.editedIndex = this.tasks.findIndex(task => task.id === taskToFind.id)
+      this.editedItem = Object.assign({}, taskToFind)
+      this.dialog = true
     },
 
-    created () {
-      this.initialize()
+    deleteItem (item) {
+      let taskToFind = JSON.parse(JSON.stringify(item)).raw
+      if (!taskToFind) {taskToFind = item}
+      this.editedIndex = this.tasks.findIndex(task => task.id === taskToFind.id)
+      this.editedItem = Object.assign({}, taskToFind)
+      this.dialogDelete = true
     },
 
-    methods: {
-      initialize () {
-        this.tasks = [
-          {
-            id: 1,
-            title: 'Task 1',
-            description: 'my first task',
-            completed: 'not started',
-            category: 'personal',
-            priority: 'low',
-            dueDate:'2023-11-01',
-          },
-          {
-            id: 2,
-            title: 'Task 2',
-            description: 'my second task',
-            completed: 'in progress',
-            category: 'work',
-            priority: 'medium',
-            dueDate:'',
-          },
-          {
-            id: 3,
-            title: 'Task 3',
-            description: 'my third task',
-            completed: 'done',
-            category: 'other',
-            priority: 'high',
-            dueDate: '',
-          },
-        ]
-      },
-
-      editItem (item) {
-        let taskToFind = JSON.parse(JSON.stringify(item)).raw
-        this.editedIndex = this.tasks.findIndex(task => task.id === taskToFind.id)
-        this.editedItem = Object.assign({}, taskToFind)
-        this.dialog = true
-      },
-
-      deleteItem (item) {
-        let taskToFind = JSON.parse(JSON.stringify(item)).raw
-        this.editedIndex = this.tasks.findIndex(task => task.id === taskToFind.id)
-        this.editedItem = Object.assign({}, taskToFind)
-        this.dialogDelete = true
-      },
-
-      deleteItemConfirm () {
-        this.tasks.splice(this.editedIndex, 1)
-        this.closeDelete()
-      },
-
-      close () {
-        this.dialog = false
-        this.$nextTick(() => {
-          this.editedItem = Object.assign({}, this.defaultItem)
-          this.editedIndex = -1
-        })
-      },
-
-      closeDelete () {
-        this.dialogDelete = false
-        this.$nextTick(() => {
-          this.editedItem = Object.assign({}, this.defaultItem)
-          this.editedIndex = -1
-        })
-      },
-
-      save () {
-        if (this.editedIndex > -1) {
-          Object.assign(this.tasks[this.editedIndex], this.editedItem)
-        } else {
-          this.tasks.push(this.editedItem)
-        }
-        this.close()
-      },
-
-      getColor (item) {
-        let taskStatus = item.raw.completed
-        console.log('completed', taskStatus)
-        if (taskStatus === 'not started') return 'red'
-        else if (taskStatus === 'in progress') return 'orange'
-        else if (taskStatus === 'done') return 'green'
-        else return 'white'
-      },
+    deleteItemConfirm () {
+      this.tasks.splice(this.editedIndex, 1)
+      this.closeDelete()
     },
-  }
+
+    close () {
+      this.dialog = false
+      this.$nextTick(() => {
+        this.editedItem = Object.assign({}, this.defaultItem)
+        this.editedIndex = -1
+      })
+    },
+
+    closeDelete () {
+      this.dialogDelete = false
+      this.$nextTick(() => {
+        this.editedItem = Object.assign({}, this.defaultItem)
+        this.editedIndex = -1
+      })
+    },
+
+    save () {
+      if (this.editedIndex > -1) {
+        Object.assign(this.tasks[this.editedIndex], this.editedItem)
+      } else {
+        this.tasks.push(this.editedItem)
+      }
+      this.close()
+    },
+
+    getColor (item) {
+      let taskStatus = item.raw.completed
+      console.log('completed', taskStatus)
+      if (taskStatus === 'not started') return 'red'
+      else if (taskStatus === 'in progress') return 'orange'
+      else if (taskStatus === 'done') return 'green'
+      else return 'white'
+    },
+
+    generateNewTaskId() {
+      // Find the highest existing task ID
+      const maxId = Math.max(...this.tasks.map(task => task.id));
+      return maxId + 1;
+    },
+
+    duplicateTask(item) {
+
+      let currentTask = JSON.parse(JSON.stringify(item)).raw
+      if (!currentTask) {currentTask = item}
+
+      const newId = this.generateNewTaskId();
+      const duplicatedTask = {
+        id: newId,
+        title: "Copy of " + currentTask.title,
+        description: currentTask.description,
+        completed: currentTask.completed,
+        category: currentTask.category,
+        priority: currentTask.priority,
+        dueDate: currentTask.dueDate,
+      };
+
+      this.tasks.push(duplicatedTask);
+    },
+},
+
+}
+
+
+
 </script>
 
 
