@@ -56,6 +56,7 @@
                     <v-text-field
                       v-model="editedItem.title"
                       label="Task"
+                      :rules="[requiredRule]"
                     ></v-text-field>
                   </v-col>
                 </v-row>
@@ -116,6 +117,7 @@
                 color="blue-darken-1"
                 variant="text"
                 @click="save"
+                data-testid="save-button"
               >
                 Save
               </v-btn>
@@ -207,6 +209,7 @@
         completed: '',
       },
       search: '',
+      requiredRule: (v) => !!v || 'Task name is required.',
     }),
 
     computed: {
