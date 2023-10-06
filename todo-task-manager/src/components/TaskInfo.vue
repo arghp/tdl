@@ -3,6 +3,7 @@
     <br>
 
   <v-data-table
+    v-model:expanded="expanded"
     :headers="headers"
     :items="tasks"
     :sort-by="[{ key: 'id', order: 'asc' }]"
@@ -21,6 +22,7 @@
           label="Search"
           single-line
           hide-details
+          show-expand
           class="ml-4"
         ></v-text-field>
         <v-spacer></v-spacer>
@@ -154,6 +156,15 @@
         mdi-delete
       </v-icon>
     </template>
+
+    <template v-slot:expanded-row="{ item }">
+      <tr>
+        <td :colspan="12" style="white-space: pre-wrap; color:grey;">
+           {{ item.raw.description }}
+        </td>
+      </tr>
+    </template>
+
     <template v-slot:no-data>
       <br>
       <br>
@@ -177,10 +188,10 @@
       dialogDelete: false,
       headers: [
         { title: 'Task', key: 'title', align: 'start', sortable: true },
-        { title: 'Description', key: 'description', align: 'left', sortable: false },
         { title: 'Status', key: 'completed', align: 'right', sortable: true },
         { title: 'Category', key: 'category', align: 'right', sortable: true },
         { title: '', key: 'actions', align: 'end', sortable: false },
+        { title: '', key: 'data-table-expand', align: 'end', sortable: false },
       ],
       tasks: [],
       editedIndex: -1,
@@ -189,6 +200,7 @@
         description: '',
         completed: '',
       },
+      expanded: [],
       defaultItem: {
         title: '',
         description: '',
@@ -299,3 +311,9 @@
     },
   }
 </script>
+
+
+<style>
+
+
+</style>

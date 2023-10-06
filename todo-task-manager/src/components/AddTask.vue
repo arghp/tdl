@@ -140,7 +140,6 @@ export default {
 <style>
 .section-container{
   border-radius: 12px;
-  //background-color: #EAEAE0;
   background-color: #E3E8F0;
   padding: 3em;
 }
