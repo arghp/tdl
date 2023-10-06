@@ -1,6 +1,16 @@
 <template>
   <h1 class="section-header">My Tasks</h1>
-    <br>
+
+  <br>
+
+  <v-container
+    style="width: 50%; margin-bottom: 2em;">
+     <VCalendar
+       :columns="2"
+       :attributes="generateAttributes()"
+       :timezone="'UTC'"
+     ></VCalendar>
+  </v-container>
 
   <v-data-table
     v-model:expanded="expanded"
@@ -9,6 +19,7 @@
     :sort-by="[{ key: 'id', order: 'asc' }]"
     class="elevation-1"
     :search="search"
+    rounded
   >
 
 
@@ -160,6 +171,12 @@
       </v-chip>
     </template>
 
+    <template v-slot:item.priority="{ item }">
+      <v-chip :color="getPriorityColor(item)">
+        {{ item.raw.priority }}
+      </v-chip>
+    </template>
+
     <template v-slot:item.actions="{ item }">
       <v-icon
         size="small"
@@ -207,6 +224,9 @@
       </v-btn>
     </template>
   </v-data-table>
+
+
+
 </template>
 
 <script>
@@ -244,6 +264,11 @@ export default {
     },
     search: '',
     requiredRule: (v) => !!v || 'Task name is required.',
+    attributes: [],
+    currentMonthYear: {
+        month: 0, // Initial value (January)
+        year: 2023, // Initial value (replace with the current year)
+    },
   }),
 
   computed: {
@@ -263,6 +288,9 @@ export default {
 
   created () {
     this.initialize()
+    const now = new Date();
+    this.currentMonthYear.month = now.getMonth();
+    this.currentMonthYear.year = now.getFullYear();
   },
 
   methods: {
@@ -275,7 +303,7 @@ export default {
           completed: 'not started',
           category: 'personal',
           priority: 'low',
-          dueDate:'2023-11-01',
+          dueDate:'2023-10-28',
         },
         {
           id: 2,
@@ -353,6 +381,14 @@ export default {
       else return 'white'
     },
 
+    getPriorityColor (item) {
+      let taskPriority = item.raw.priority
+      if (taskPriority === 'high') return '#B02753'
+      else if (taskPriority === 'medium') return '#278AB0'
+      else if (taskPriority === 'low') return '#DDAC94'
+      else return 'white'
+    },
+
     generateNewTaskId() {
       // Find the highest existing task ID
       const maxId = Math.max(...this.tasks.map(task => task.id));
@@ -377,6 +413,30 @@ export default {
 
       this.tasks.push(duplicatedTask);
     },
+     generateAttributes() {
+      const attributes = [];
+      const tasksWithDueDate = this.tasks.filter((task) => task.dueDate);
+
+      tasksWithDueDate.forEach((task) => {
+        const dueDate = new Date(task.dueDate);
+        const utcString = dueDate.toUTCString()+1;
+
+        let dotColors = {
+            'high': 'pink',
+            'medium': 'teal',
+            'low': 'orange'
+        }
+
+        let taskPriority = task.priority
+        attributes.push({
+          dot: dotColors[taskPriority],
+          dates: [utcString],
+        });
+      });
+
+      return attributes;
+    },
+
 },
 
 }
