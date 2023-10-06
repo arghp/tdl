@@ -17,7 +17,6 @@
 
 
 import AddTask from "@/components/AddTask.vue";
-import MyTasks  from "@/components/MyTasks";
 import TaskInfo from "@/components/TaskInfo";
 
   export default {
@@ -25,7 +24,6 @@ import TaskInfo from "@/components/TaskInfo";
     name:'Home',
     components: {
       AddTask,
-      MyTasks,
       TaskInfo
     },
     data: () => ({
