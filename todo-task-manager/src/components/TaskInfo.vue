@@ -57,6 +57,13 @@
                       v-model="editedItem.title"
                       label="Task"
                     ></v-text-field>
+                     </v-col>
+                  <v-col>
+                    <v-select
+                      v-model="editedItem.priority"
+                      label="Priority"
+                      :items="['high', 'medium', 'low']"
+                    ></v-select>
                   </v-col>
                 </v-row>
                 <v-row>
@@ -78,11 +85,21 @@
                     md="4"
                   >
 
-                    <v-combobox
+                    <v-select
                       v-model="editedItem.completed"
                       label="Status"
                       :items="['not started', 'in progress', 'done']"
-                    ></v-combobox>
+                    ></v-select>
+                  </v-col>
+
+                  <v-col>
+                   <v-text-field
+                      v-model="editedItem.dueDate"
+                      label="Due date"
+                      type="date"
+                      required
+
+                  ></v-text-field>
                   </v-col>
 
                 </v-row>
@@ -188,8 +205,11 @@
       dialogDelete: false,
       headers: [
         { title: 'Task', key: 'title', align: 'start', sortable: true },
-        { title: 'Status', key: 'completed', align: 'right', sortable: true },
-        { title: 'Category', key: 'category', align: 'right', sortable: true },
+//        { title: 'Description', key: 'description', align: 'left', sortable: false },
+        { title: 'Status', key: 'completed', sortable: true },
+        { title: 'Category', key: 'category', sortable: true },
+        { title: 'Priority', key: 'priority', sortable: true },
+        { title: 'Due Date', key: 'dueDate',  sortable: true },
         { title: '', key: 'actions', align: 'end', sortable: false },
         { title: '', key: 'data-table-expand', align: 'end', sortable: false },
       ],
@@ -199,12 +219,18 @@
         title: '',
         description: '',
         completed: '',
+        category: '',
+        priority: '',
+        dueDate:'',
       },
       expanded: [],
       defaultItem: {
         title: '',
         description: '',
         completed: '',
+        category: '',
+        priority: '',
+        dueDate:'',
       },
       search: '',
     }),
@@ -237,6 +263,8 @@
             description: 'my first task',
             completed: 'not started',
             category: 'personal',
+            priority: '',
+            dueDate:'2023-11-01',
           },
           {
             id: 2,
@@ -244,7 +272,8 @@
             description: 'my second task',
             completed: 'in progress',
             category: 'work',
-
+            priority: '',
+            dueDate:'',
           },
           {
             id: 3,
@@ -252,6 +281,8 @@
             description: 'my third task',
             completed: 'done',
             category: 'other',
+            priority: '',
+            dueDate: '',
           },
         ]
       },
