@@ -266,7 +266,7 @@
             description: 'my first task',
             completed: 'not started',
             category: 'personal',
-            priority: '',
+            priority: 'low',
             dueDate:'2023-11-01',
           },
           {
@@ -275,7 +275,7 @@
             description: 'my second task',
             completed: 'in progress',
             category: 'work',
-            priority: '',
+            priority: 'medium',
             dueDate:'',
           },
           {
@@ -284,7 +284,7 @@
             description: 'my third task',
             completed: 'done',
             category: 'other',
-            priority: '',
+            priority: 'high',
             dueDate: '',
           },
         ]
