@@ -25,7 +25,7 @@ Starting up the backend:
   npm run start
   ```
 
-## todo-task-manager-frontend
+# todo-task-manager-frontend
 
 Main packages for development:
 - vue v3.2.36
@@ -40,7 +40,7 @@ Main packages for testing:
 Full list of dependencies can be found in [todo-task-manager/package.json](package.json)  
 In addition, you must have a package manager such as yarn or npm installed. Setup steps are outlined below.
 
-## Project setup
+- Project setup
 
 ```
 # yarn
@@ -53,7 +53,7 @@ npm install
 pnpm install
 ```
 
-### Compiles and hot-reloads for development
+- Compiles and hot-reloads for development
 
 ```
 # yarn
@@ -66,7 +66,7 @@ npm run dev
 pnpm dev
 ```
 
-### Compiles and minifies for production
+- Compiles and minifies for production
 
 ```
 # yarn
