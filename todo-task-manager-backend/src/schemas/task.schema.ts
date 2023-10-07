@@ -1,5 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
+import { Priority } from 'src/models/priority.enum';
+import { Status } from 'src/models/status.enum';
 
 export type TaskDocument = HydratedDocument<Task>;
 
@@ -12,10 +14,16 @@ export class Task {
   description: string;
 
   @Prop()
-  status: string;
+  status: Status;
 
   @Prop()
   category: string;
+
+  @Prop() 
+  priority: Priority;
+
+  @Prop() 
+  dueDate: Date;
 }
 
 export const TaskSchema = SchemaFactory.createForClass(Task);

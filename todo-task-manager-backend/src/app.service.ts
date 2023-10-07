@@ -13,8 +13,24 @@ export class AppService {
     return createdTask.save();
   }
 
-  async getAllTasks(): Promise<Task[]> {
-    return this.taskModel.find().exec();
+  async getAllTasks(query: any): Promise<Task[]> {
+    let mongoQuery: any = {};
+    if (query?.status) {
+      mongoQuery.status = { $eq: query.status };
+    }
+    if (query?.priority) {
+      mongoQuery.priority = { $eq: query.priority };
+    }
+    if (query?.category) {
+      mongoQuery.priority = { $eq: query.category };
+    }
+    if (query?.page && query?.perPage) {
+      const page = parseInt(query.page, 10);
+      const perPage = parseInt(query.perPage, 10);
+      return this.taskModel.find(mongoQuery).skip(page).limit(perPage).exec();
+    }
+
+    return this.taskModel.find(mongoQuery).exec();
   }
 
   async getTaskById(id: string): Promise<Task> {
