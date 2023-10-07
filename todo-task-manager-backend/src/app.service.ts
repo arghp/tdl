@@ -22,7 +22,7 @@ export class AppService {
       mongoQuery.priority = { $eq: query.priority };
     }
     if (query?.category) {
-      mongoQuery.priority = { $eq: query.category };
+      mongoQuery.category = { $eq: query.category };
     }
     if (query?.page && query?.perPage) {
       const page = parseInt(query.page, 10);
