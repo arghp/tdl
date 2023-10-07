@@ -1,7 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
-import { Priority } from 'src/models/priority.enum';
-import { Status } from 'src/models/status.enum';
+import { Priority } from './../models/priority.enum';
+import { Status } from './../models/status.enum';
 
 export type TaskDocument = HydratedDocument<Task>;
 

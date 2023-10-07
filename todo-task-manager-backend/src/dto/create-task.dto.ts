@@ -1,6 +1,6 @@
 import { IsDate, IsDateString, IsEnum, IsNotEmpty } from "class-validator";
-import { Priority } from "src/models/priority.enum";
-import { Status } from "src/models/status.enum";
+import { Priority } from "./../models/priority.enum";
+import { Status } from "./../models/status.enum";
 
 export class CreateTaskDto {
     @IsNotEmpty()
