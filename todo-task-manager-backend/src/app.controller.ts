@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, Query } from '@nestjs/common';
 import { AppService } from './app.service';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { Task } from './schemas/task.schema';
@@ -8,8 +8,8 @@ export class AppController {
   constructor(private readonly appService: AppService) {}
 
   @Get()
-  async getAllTasks(): Promise<Task[]> {
-    return this.appService.getAllTasks();
+  async getAllTasks(@Query() query): Promise<Task[]> {
+    return this.appService.getAllTasks(query);
   }
 
   @Post()
